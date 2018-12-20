@@ -12,3 +12,8 @@
 #    python train.py --dir Data/housing.csv
 
 # Imports
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import ShuffleSplit, train_test_split, GridSearchCV
+from sklearn.metrics import r2_score, make_scorer
+from sklearn.tree import DecisionTreeRegressor
