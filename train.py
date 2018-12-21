@@ -3,7 +3,11 @@
 # REVISED DATE: (DD/MM/YY) - Not revise it yet
 # PURPOSE: Build an optimal supervised learner model based on a statistical analysis.
 #           Load, split, prepare can calculate statistics on the data.
-#           Perform metric evaluation, grid search. Train optimal model 
+#           Perform metric evaluation, grid search. Train optimal model.
+#           Test model with the following testing clients:
+#               client 1 = [5, 17, 15]
+#               client 2 = [4, 32, 22]
+#               client 3 = [8, 3, 12]
 #
 # USAGE: Use argparse Expected Call with <> indicating expected user input:
 #           python check_images.py --dir <directory with data> --arch <model>
@@ -105,7 +109,18 @@ def fit_model(X, y):
 
 
 # Fit the training data to the model using grid search
-reg = fit_model(X_train, y_train)
+model = fit_model(X_train, y_train)
 
-# Produce the value for 'max_depth'
-print("\n ** Parameter 'max_depth' is {} for the optimal model.".format(reg.get_params()['max_depth']))
+# Print the value for 'max_depth'
+print("\n** Parameter 'max_depth' is {} for the optimal model.".format(model.get_params()['max_depth']))
+
+print("\n** Test model with client1 = [5, 17, 15], client2 = [4, 32, 22], client3 = [8, 3, 12]\n")
+
+# Produce a matrix for client data to be tested
+client_data = [[5, 17, 15],
+               [4, 32, 22],
+               [8, 3, 12]]
+
+# Print predictions
+for i, price in enumerate(model.predict(client_data)):
+    print("Predicted selling price for Client {}'s home: ${:,.2f}".format(i+1, price))
