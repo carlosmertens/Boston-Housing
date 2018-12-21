@@ -49,3 +49,63 @@ data, features, prices = get_data('Data/housing.csv')
 X_train, X_test, y_train, y_test = train_test_split(features, prices, test_size=0.20, random_state=42)
 
 print("\n** 20% of the dataset has been split for testing.")
+
+
+def performance_metric(y_true, y_predict):
+    """ Calculates and returns the coefficient of determination R2.
+    
+    R2 captures the percentage of squared correlation between the predicted 
+    and actual values of the targets.
+    Parameters:
+     y_true - Array, the actual target values
+     y_predict - Array, the predicted target values
+    Return:
+     score - Float, the r2 metric score between 0 and 1 to be interpreted as 
+             a percentage between 0 and 100
+    """
+    # Calculate the performance score between true target values and predicted values
+    score = r2_score(y_true, y_predict)
+
+    return score
+
+
+def fit_model(X, y):
+    """ Performs grid search and train model.
+    
+    Grid search is performed over the 'max_depth' parameter from 1 to 10 for a 
+    decision tree regressor training.
+    Parameters:
+     X - Array, features from our data to be used for training
+     y - Array, target values for the features on the training
+    Return:
+     grid.best_estimator_ - Optimal model trained with parameters from the grid search
+    """
+    
+    # Create cross-validation sets from the training data
+    cv_sets = ShuffleSplit(n_splits = 10, test_size = 0.20, random_state = 0)
+
+    # Create a decision tree regressor object
+    regressor = DecisionTreeRegressor()
+    regressor.fit(X, y)
+
+    # Create a dictionary for the parameter 'max_depth' with a range from 1 to 10
+    params = {'max_depth': range(1, 11)}
+
+    # Transform 'performance_metric' into a scoring function using 'make_scorer' 
+    scoring_fnc = make_scorer(performance_metric)
+
+    # Create the grid search cv object --> GridSearchCV()
+    grid = GridSearchCV(regressor, params, scoring=scoring_fnc, cv=cv_sets)
+
+    # Fit the grid search object to the data to compute the optimal model
+    grid = grid.fit(X, y)
+
+    # Return the optimal model after fitting the data
+    return grid.best_estimator_
+
+
+# Fit the training data to the model using grid search
+reg = fit_model(X_train, y_train)
+
+# Produce the value for 'max_depth'
+print("\n ** Parameter 'max_depth' is {} for the optimal model.".format(reg.get_params()['max_depth']))
