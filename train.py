@@ -18,6 +18,7 @@ from sklearn.model_selection import ShuffleSplit, train_test_split, GridSearchCV
 from sklearn.metrics import r2_score, make_scorer
 from sklearn.tree import DecisionTreeRegressor
 
+
 def get_data(path):
     """Load csv file and get features and target.
     
@@ -39,7 +40,12 @@ def get_data(path):
     # Print shape of dataframe
     print("** Boston housing dataset has {} datapoints with {} variables each.".format(*data.shape))
 
-    return data, prices, features
+    return data, features, prices
 
 
-data, prices, features = get_data('Data/housing.csv')
+data, features, prices = get_data('Data/housing.csv')
+
+# Shuffle and split the data into training and testing subsets
+X_train, X_test, y_train, y_test = train_test_split(features, prices, test_size=0.20, random_state=42)
+
+print("\n** 20% of the dataset has been split for testing.")
