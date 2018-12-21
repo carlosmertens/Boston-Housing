@@ -23,6 +23,38 @@ from sklearn.metrics import r2_score, make_scorer
 from sklearn.tree import DecisionTreeRegressor
 
 
+def main():
+    """Start the program and call the functions."""
+    data, features, prices = get_data('Data/housing.csv')
+
+    # Shuffle and split the data into training and testing subsets
+    X_train, X_test, y_train, y_test = train_test_split(features, prices, test_size=0.20, random_state=42)
+
+    print("\n** 20% of the dataset has been split for testing.")
+    # Fit the training data to the model using grid search
+    model = fit_model(X_train, y_train)
+
+    # Print the value for 'max_depth'
+    print("\n** Parameter 'max_depth' is {} for the optimal model.".format(model.get_params()['max_depth']))
+
+    print("\n** Test model with client1 = [5, 17, 15], client2 = [4, 32, 22], client3 = [8, 3, 12]\n")
+
+    # Produce a matrix for client data to be tested
+    client_data = [[5, 17, 15],
+                   [4, 32, 22],
+                   [8, 3, 12]]
+
+    # Print predictions
+    for i, price in enumerate(model.predict(client_data)):
+        print("Predicted selling price for Client {}'s home: ${:,.2f}".format(i+1, price))
+
+    # Print trials with different training and testing datapoints
+    print("\n** Run function ten times with different training and testing sets:")
+
+    predict_trials(features, prices, fit_model, client_data)
+
+
+
 def get_data(path):
     """Load csv file and get features and target.
     
@@ -45,14 +77,6 @@ def get_data(path):
     print("** Boston housing dataset has {} datapoints with {} variables each.".format(*data.shape))
 
     return data, features, prices
-
-
-data, features, prices = get_data('Data/housing.csv')
-
-# Shuffle and split the data into training and testing subsets
-X_train, X_test, y_train, y_test = train_test_split(features, prices, test_size=0.20, random_state=42)
-
-print("\n** 20% of the dataset has been split for testing.")
 
 
 def performance_metric(y_true, y_predict):
@@ -108,25 +132,7 @@ def fit_model(X, y):
     return grid.best_estimator_
 
 
-# Fit the training data to the model using grid search
-model = fit_model(X_train, y_train)
-
-# Print the value for 'max_depth'
-print("\n** Parameter 'max_depth' is {} for the optimal model.".format(model.get_params()['max_depth']))
-
-print("\n** Test model with client1 = [5, 17, 15], client2 = [4, 32, 22], client3 = [8, 3, 12]\n")
-
-# Produce a matrix for client data to be tested
-client_data = [[5, 17, 15],
-               [4, 32, 22],
-               [8, 3, 12]]
-
-# Print predictions
-for i, price in enumerate(model.predict(client_data)):
-    print("Predicted selling price for Client {}'s home: ${:,.2f}".format(i+1, price))
-
-
-def PredictTrials(X, y, fitter, data):
+def predict_trials(X, y, fitter, data):
     """Perform trials of fitting and predicting data."""
     # Store the predicted prices
     prices = []
@@ -150,8 +156,6 @@ def PredictTrials(X, y, fitter, data):
     print("\nRange in prices: ${:,.2f}".format(max(prices) - min(prices)))
 
 
-# Print trials with different training and testing datapoints
-
-print("\n** Run function ten times with different training and testing sets:")
-
-PredictTrials(features, prices, fit_model, client_data)
+# Call main function to run the program
+if __name__ == '__main__':
+    main()
