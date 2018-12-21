@@ -124,3 +124,34 @@ client_data = [[5, 17, 15],
 # Print predictions
 for i, price in enumerate(model.predict(client_data)):
     print("Predicted selling price for Client {}'s home: ${:,.2f}".format(i+1, price))
+
+
+def PredictTrials(X, y, fitter, data):
+    """Perform trials of fitting and predicting data."""
+    # Store the predicted prices
+    prices = []
+
+    for k in range(10):
+        # Split the data
+        X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                            test_size=0.2, random_state=k)
+
+        # Fit the data
+        reg = fitter(X_train, y_train)
+
+        # Make a prediction
+        pred = reg.predict([data[0]])[0]
+        prices.append(pred)
+
+        # Result
+        print("Trial {}: ${:,.2f}".format(k + 1, pred))
+
+    # Display price range
+    print("\nRange in prices: ${:,.2f}".format(max(prices) - min(prices)))
+
+
+# Print trials with different training and testing datapoints
+
+print("\n** Run function ten times with different training and testing sets:")
+
+PredictTrials(features, prices, fit_model, client_data)
