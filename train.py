@@ -9,11 +9,9 @@
 #               client 2 = [4, 32, 22]
 #               client 3 = [8, 3, 12]
 #
-# USAGE: Use argparse Expected Call with <> indicating expected user input:
-#           python check_images.py --dir <directory with data> --arch <model>
-#             --dogfile <file that contains dognames>
+# USAGE: 
 #   Example call:
-#    python train.py --dir Data/housing.csv
+#    python train.py
 
 # Imports
 import numpy as np
