@@ -1,14 +1,13 @@
-# Machine Learning Engineer Nanodegree
+# Project: Predicting Boston Housing Prices
 ## Content: Model Evaluation and Validation
-### Project: Predicting Boston Housing Prices
 
 ### Project Overview
-The Boston housing market is highly competitive, and you want to be the best real estate agent in the area. To compete with your peers, you decide to leverage a few basic machine learning concepts to assist you and a client with finding the best selling price for their home. Luckily, you’ve come across the Boston Housing dataset which contains aggregated data on various features for houses in Greater Boston communities, including the median value of homes for each of those areas. Your task is to build an optimal model based on a statistical analysis with the tools available. This model will then be used to estimate the best selling price for your clients' homes.
+The Boston housing market is highly competitive, and we want to be the best real estate agent in the area. To compete with our peers, we decide to leverage a few basic machine learning concepts to assist you and a client with finding the best selling price for their home. Luckily, we’ve come across the Boston Housing dataset which contains aggregated data on various features for houses in Greater Boston communities, including the median value of homes for each of those areas. Our task is to build an optimal model based on a statistical analysis with the tools available. This model will then be used to estimate the best selling price for your clients' homes.
 
 ### Project Highlights
-This project is designed to get you acquainted with the many techniques for training, testing, evaluating, and optimizing models, available in sklearn.
+This project is designed to get us acquainted with the many techniques for training, testing, evaluating, and optimizing models, available in sklearn.
 
-Things you will learn by completing this project:
+Things you learned by completing this project:
 
 How to explore data and observe features.
 How to train and test models.
